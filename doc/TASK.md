@@ -1,7 +1,7 @@
 # TASK 요약
 
 > **상세 문서**: [tasks/task_server.md](tasks/task_server.md) | [tasks/task_frontend.md](tasks/task_frontend.md) | [tasks/task_mobile.md](tasks/task_mobile.md)  
-> **참조**: [PRD](PRD.md) | [RULE](RULE.md) | [04-quality §4.3.2](rules/04-quality.md#432-task-문서-작성-구조-doctaskmd)
+> **참조**: [PRD](PRD.md) | [RULE](RULE.md) | [DOC_MAP](DOC_MAP.md) | [13-document-guide](rules/13-document-guide.md)
 
 ---
 
@@ -84,7 +84,22 @@ Frontend/Mobile Step 11~14 (여행) 연동 가능
 
 ---
 
-## 6. Step 구조 (04-quality §4.3.2)
+## 6. Step별 문서 작성 (13-document-guide)
+
+각 Step에 **선행 문서**·**후속 문서** 필드가 추가됨. [DOC_MAP](DOC_MAP.md) 참조.
+
+| 구분 | doc/ 폴더 | 문서 |
+|------|------------|------|
+| **개발 전** | pre-dev/ | 01-proposal, 02-project-plan, 03-requirements, 04-architecture, 05-erd, 06-api-spec |
+| **개발 중** | during-dev/ | 07-detailed-design, 08-work-log, 09-change-request, 10-test-case |
+| **개발 후** | post-dev/ | 11-test-report, 12-user-manual, 13-deployment-guide, 14-operations-manual |
+
+- **선행 문서**: Step 시작 전 확인·작성할 문서
+- **후속 문서**: Step 완료 후 `doc/`에 산출할 문서
+
+---
+
+## 7. Step 구조 (04-quality §4.3.2)
 
 각 Step은 아래 10개 필드를 포함한다.
 
@@ -100,10 +115,12 @@ Frontend/Mobile Step 11~14 (여행) 연동 가능
 | Done When | 완료 조건 |
 | Duration | 예상 소요일 |
 | RULE Reference | 참조 RULE 섹션 |
+| 선행 문서 | Step 시작 전 확인·작성할 문서 (doc/ 경로) |
+| 후속 문서 | Step 완료 후 doc/에 산출할 문서 |
 
 ---
 
-## 7. 규칙 준수 체크포인트
+## 8. 규칙 준수 체크포인트
 
 | 구분 | 필수 항목 |
 |------|-----------|

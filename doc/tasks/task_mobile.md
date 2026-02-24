@@ -1,6 +1,10 @@
 # Task: Mobile (Flutter)
 
-> **참조 문서**: [PRD](../PRD.md) | [RULE](../RULE.md) | [04-quality §4.3.2](../rules/04-quality.md#432-task-문서-작성-구조-doctaskmd) | [07-platform-flutter](../rules/07-platform-flutter.md) | [06-auth-token](../rules/06-auth-token.md)
+> **참조 문서**: [PRD](../PRD.md) | [RULE](../RULE.md) | [DOC_MAP](../DOC_MAP.md) | [04-quality §4.3.2](../rules/04-quality.md#432-task-문서-작성-구조-doctaskmd) | [07-platform-flutter](../rules/07-platform-flutter.md)
+
+---
+
+> **문서 작성**: 각 Step의 `선행 문서` 확인 후 작업, `후속 문서`를 `doc/`에 산출. [13-document-guide](../rules/13-document-guide.md) 준수.
 
 ---
 
@@ -32,6 +36,8 @@
 | **Done When** | `flutter run` 실행 시 기본 앱 표시 |
 | **Duration** | 0.5일 |
 | **RULE Reference** | 07-platform-flutter §7.3.4 |
+| **선행 문서** | doc/pre-dev/04-architecture, doc/pre-dev/06-api-spec |
+| **후속 문서** | doc/during-dev/08-work-log |
 
 ---
 
@@ -49,6 +55,8 @@
 | **Done When** | SecureStorage read/write, 환경별 API URL 로드 |
 | **Duration** | 0.5일 |
 | **RULE Reference** | 07-platform-flutter §7.3.1, §7.3.11 |
+| **선행 문서** | — |
+| **후속 문서** | doc/during-dev/08-work-log |
 
 ---
 
@@ -66,6 +74,8 @@
 | **Done When** | Dio 요청 시 토큰 주입, DioException → AppException 변환 |
 | **Duration** | 1일 |
 | **RULE Reference** | 07-platform-flutter §7.3.2, §7.3.3 |
+| **선행 문서** | doc/pre-dev/06-api-spec |
+| **후속 문서** | doc/during-dev/08-work-log |
 
 ---
 
@@ -83,6 +93,8 @@
 | **Done When** | 미인증 시 /auth/login, 인증 시 /home 이동 |
 | **Duration** | 0.5일 |
 | **RULE Reference** | 07-platform-flutter §7.3.12 |
+| **선행 문서** | — |
+| **후속 문서** | doc/during-dev/08-work-log |
 
 ---
 
@@ -100,6 +112,8 @@
 | **Done When** | login→토큰 저장→API 호출, refresh 동작 |
 | **Duration** | 1.5일 |
 | **RULE Reference** | PRD §5.1, 06-auth-token, 07-platform-flutter §7.3.5 |
+| **선행 문서** | doc/pre-dev/06-api-spec (Auth) |
+| **후속 문서** | doc/during-dev/08-work-log |
 
 ---
 
@@ -117,6 +131,8 @@
 | **Done When** | Splash→Login→Register→로그인 성공 시 Main 이동 |
 | **Duration** | 1일 |
 | **RULE Reference** | PRD §8.2 |
+| **선행 문서** | doc/pre-dev/06-api-spec |
+| **후속 문서** | doc/during-dev/08-work-log |
 
 ---
 
@@ -134,6 +150,8 @@
 | **Done When** | 탭 전환 시 해당 화면 표시 |
 | **Duration** | 0.5일 |
 | **RULE Reference** | PRD §8.2 |
+| **선행 문서** | — |
+| **후속 문서** | doc/during-dev/08-work-log |
 
 ---
 
@@ -151,6 +169,8 @@
 | **Done When** | PostRepository 메서드 호출 시 API 연동 |
 | **Duration** | 1일 |
 | **RULE Reference** | PRD §5.3, 07-platform-flutter §7.3.8 |
+| **선행 문서** | doc/pre-dev/06-api-spec (Social) |
+| **후속 문서** | doc/during-dev/08-work-log |
 
 ---
 
@@ -168,6 +188,8 @@
 | **Done When** | 피드 목록·상세·pull-to-refresh 동작 |
 | **Duration** | 1.5일 |
 | **RULE Reference** | 07-platform-flutter §7.3.5, §7.3.9 |
+| **선행 문서** | doc/pre-dev/06-api-spec |
+| **후속 문서** | doc/during-dev/08-work-log |
 
 ---
 
@@ -185,6 +207,8 @@
 | **Done When** | 게시물 작성·업로드 동작 |
 | **Duration** | 1일 |
 | **RULE Reference** | PRD SM-03 |
+| **선행 문서** | doc/pre-dev/06-api-spec |
+| **후속 문서** | doc/during-dev/08-work-log |
 
 ---
 
@@ -202,6 +226,8 @@
 | **Done When** | 프로필 조회·수정 동작 |
 | **Duration** | 0.5일 |
 | **RULE Reference** | PRD §5.2 |
+| **선행 문서** | doc/pre-dev/06-api-spec |
+| **후속 문서** | doc/during-dev/08-work-log |
 
 ---
 
@@ -219,6 +245,8 @@
 | **Done When** | 여행 목록 표시 |
 | **Duration** | 1일 |
 | **RULE Reference** | PRD §5.4 |
+| **선행 문서** | doc/pre-dev/06-api-spec (Travel) |
+| **후속 문서** | doc/during-dev/08-work-log |
 
 ---
 
@@ -236,6 +264,8 @@
 | **Done When** | 여행 상세·일정·예산 표시·편집 동작 |
 | **Duration** | 2일 |
 | **RULE Reference** | PRD §5.4 |
+| **선행 문서** | doc/pre-dev/06-api-spec |
+| **후속 문서** | doc/during-dev/08-work-log |
 
 ---
 
@@ -253,6 +283,8 @@
 | **Done When** | 목적지 검색·날씨·리뷰 동작 |
 | **Duration** | 1.5일 |
 | **RULE Reference** | PRD §5.4 |
+| **선행 문서** | doc/pre-dev/06-api-spec |
+| **후속 문서** | doc/during-dev/08-work-log |
 
 ---
 
@@ -270,6 +302,8 @@
 | **Done When** | 채팅방 목록 표시 |
 | **Duration** | 0.5일 |
 | **RULE Reference** | PRD §5.5 |
+| **선행 문서** | doc/pre-dev/06-api-spec (Chat) |
+| **후속 문서** | doc/during-dev/08-work-log |
 
 ---
 
@@ -287,6 +321,8 @@
 | **Done When** | 실시간 메시지 송수신 동작 |
 | **Duration** | 1.5일 |
 | **RULE Reference** | PRD §6 |
+| **선행 문서** | doc/pre-dev/06-api-spec |
+| **후속 문서** | doc/during-dev/08-work-log |
 
 ---
 
@@ -304,6 +340,8 @@
 | **Done When** | 공통 위젯 재사용, 테마 적용 |
 | **Duration** | 1일 |
 | **RULE Reference** | 07-platform-flutter §7.3.4 |
+| **선행 문서** | — |
+| **후속 문서** | doc/during-dev/08-work-log |
 
 ---
 
@@ -321,6 +359,8 @@
 | **Done When** | 에러 시 사용자 친화적 메시지, 플랫폼 권한 설정 |
 | **Duration** | 0.5일 |
 | **RULE Reference** | 07-platform-flutter §7.3.2, §7.3.7 |
+| **선행 문서** | — |
+| **후속 문서** | doc/during-dev/08-work-log |
 
 ---
 
@@ -338,6 +378,8 @@
 | **Done When** | 테스트 실행 통과, (선택) 오프라인 시 캐시 표시 |
 | **Duration** | 1일 |
 | **RULE Reference** | 07-platform-flutter §7.3.10, §7.3.13 |
+| **선행 문서** | — |
+| **후속 문서** | doc/during-dev/08-work-log |
 
 ---
 
@@ -355,6 +397,8 @@
 | **Done When** | 체크리스트 항목 충족 |
 | **Duration** | 0.5일 |
 | **RULE Reference** | appendix-c-checklist |
+| **선행 문서** | — |
+| **후속 문서** | doc/during-dev/08-work-log, doc/post-dev/12-user-manual 초안 |
 
 ---
 

@@ -5,25 +5,140 @@
 > **7.2 React**와 **8장 JS 규칙**과 동일한 원칙(보안 저장, 비동기·에러 처리, 네이밍 등)을 적용한다.
 > 아래는 Flutter **특화 사항**만 기술한다.
 >
-> **기준 버전**: Flutter 3.x · Dart 3.x · Riverpod 3.0+
+> **기준 버전**: Flutter 3.x · Dart 3.x · Riverpod 3.1+ · riverpod_generator 4.0+
 
 ---
 
 ## 목차
 
-1. [보안 저장소 사용](#731-보안-보안-저장소-사용)
-2. [에러 처리 및 AppException 계층](#732-기술-에러-처리-및-appexception-계층)
-3. [HTTP 클라이언트 공통화](#733-기술-http-클라이언트-공통화-dio)
-4. [폴더 구조](#734-구조-폴더-구조-feature-based)
-5. [상태 관리 (Riverpod 3.0+)](#735-기술-상태-관리-riverpod-30)
-6. [위젯 크기 제한 및 단일 책임](#736-품질-위젯-크기-제한-및-단일-책임)
-7. [Android / iOS 플랫폼 설정](#737-보안-android--ios-플랫폼-설정)
-8. [API 응답 직렬화](#738-기술-api-응답-직렬화)
-9. [이미지 캐싱 및 성능](#739-기술-이미지-캐싱-및-성능)
-10. [로컬 영속성 (오프라인 지원)](#7310-기술-로컬-영속성-오프라인-지원)
-11. [환경별 설정 (Flavor / Environment)](#7311-구조-환경별-설정-flavor--environment)
-12. [라우팅](#7312-기술-라우팅)
-13. [테스트 폴더 구조](#7313-품질-테스트-폴더-구조)
+1. [pub 패키지 정리](#730-pub-패키지-정리)
+2. [Riverpod 아키텍처 Rule](#73501-riverpod-아키텍처-rule-강제)
+3. [보안 저장소 사용](#731-보안-보안-저장소-사용)
+4. [에러 처리 및 AppException 계층](#732-기술-에러-처리-및-appexception-계층)
+5. [HTTP 클라이언트 공통화](#733-기술-http-클라이언트-공통화-dio)
+6. [폴더 구조](#734-구조-폴더-구조-feature-based)
+7. [상태 관리 (Riverpod 3.0+)](#735-기술-상태-관리-riverpod-30)
+8. [위젯 크기 제한 및 단일 책임](#736-품질-위젯-크기-제한-및-단일-책임)
+9. [Android / iOS 플랫폼 설정](#737-보안-android--ios-플랫폼-설정)
+10. [API 응답 직렬화](#738-기술-api-응답-직렬화)
+11. [이미지 캐싱 및 성능](#739-기술-이미지-캐싱-및-성능)
+12. [로컬 영속성 (오프라인 지원)](#7310-기술-로컬-영속성-오프라인-지원)
+13. [환경별 설정 (Flavor / Environment)](#7311-구조-환경별-설정-flavor--environment)
+14. [라우팅](#7312-기술-라우팅)
+15. [테스트 폴더 구조](#7313-품질-테스트-폴더-구조)
+
+---
+
+## 7.3.0 pub 패키지 정리
+
+### 필수 패키지
+
+| 패키지 | 버전 | 용도 |
+|--------|------|------|
+| **cupertino_icons** | ^1.0.8 | iOS 스타일 아이콘 (`CupertinoIcons.*`), Material과 혼합 UI 시 보조 |
+| **flutter_riverpod** | ^3.1.0 | Flutter 전용 Riverpod (ConsumerWidget, Consumer, WidgetRef) — **riverpod 포함** |
+| **riverpod_annotation** | ^4.0.0 | `@riverpod` 어노테이션, Boilerplate 감소, 타입 안정성 |
+| **riverpod_generator** | ^4.0.0+1 | build_runner 코드 생성기, NotifierProvider·AsyncNotifier 자동 생성 |
+| **build_runner** | ^2.4.0 | Dart 코드 생성 (`flutter pub run build_runner build` / `watch`) |
+| **logger** | ^2.0.0 | 구조화 로그, 레벨 관리 (d, i, w, e, f), PrettyPrinter |
+| **intl** | ^0.20.2 | 국제화(i18n)·지역화(l10n), DateFormat, NumberFormat |
+
+> ⚠️ **중복 제거**: `riverpod`은 `flutter_riverpod` 의존성에 포함되므로 **별도 선언 금지**. `flutter_riverpod`만 선언한다.
+
+### pubspec.yaml 예시
+
+```yaml
+dependencies:
+  cupertino_icons: ^1.0.8
+  flutter_riverpod: ^3.1.0
+  riverpod_annotation: ^4.0.0
+  logger: ^2.0.0
+  intl: ^0.20.2
+
+dev_dependencies:
+  riverpod_generator: ^4.0.0+1
+  build_runner: ^2.4.0
+```
+
+---
+
+## 7.3.0.1 Riverpod 아키텍처 Rule (강제)
+
+팀 개발 시 아래 규칙을 **강제** 적용한다.
+
+### 상태 관리
+
+| Rule | 내용 |
+|------|------|
+| **Rule 1** | `setState()` 사용 금지. 모든 상태는 Riverpod(Provider, Notifier, AsyncNotifier)로 관리 |
+| **Rule 2** | 전역 변수 선언 금지 |
+| **Rule 3** | UI는 비즈니스 로직 없음. API 호출은 Notifier 내부만. UI는 `ref.watch()` 사용, `ref.read()`는 이벤트 처리 시에만 |
+
+### Provider 선언
+
+| Rule | 내용 |
+|------|------|
+| **Rule 4** | 반드시 **Annotation 방식** 사용. 수동 `Provider(...)` 생성 금지 |
+
+```dart
+// ✅ 허용
+@riverpod
+class UserNotifier extends _$UserNotifier {
+  @override
+  Future<User> build() async => fetchUser();
+}
+
+// ❌ 금지
+final userProvider = FutureProvider((ref) => fetchUser());
+```
+
+| Rule | 내용 |
+|------|------|
+| **Rule 5** | `build_runner` 사용 강제. CI에 `flutter pub run build_runner build --delete-conflicting-outputs` 포함 |
+
+### Logger
+
+| Rule | 내용 |
+|------|------|
+| **Rule 6** | `print()` 사용 금지. 반드시 `logger` 사용 |
+
+```dart
+// ❌ 금지
+print("debug");
+
+// ✅ 허용
+final logger = Logger();
+logger.i("User loaded");
+logger.e("Error", error: e);
+```
+
+### 국제화
+
+| Rule | 내용 |
+|------|------|
+| **Rule 7** | 문자열 하드코딩 금지. `intl` 또는 l10n 리소스 사용 |
+
+```dart
+// ❌ 금지
+Text("로그인");
+
+// ✅ 허용
+Text(AppLocalizations.of(context)!.login);
+```
+
+### Provider·DI
+
+| Rule | 내용 |
+|------|------|
+| **Rule 8** | Provider는 feature 단위로 분리. Repository 패턴 사용. API 로직은 repository에 위치 |
+| **Rule 9** | DI는 Riverpod만 사용. `get_it` 금지, Singleton 직접 생성 금지 |
+
+### Async·테스트
+
+| Rule | 내용 |
+|------|------|
+| **Rule 10** | 비동기 상태는 `AsyncNotifier` 사용 강제. UI에서 `ref.watch(xxxProvider).when(data: ..., loading: ..., error: ...)` |
+| **Rule 11** | 테스트 시 `ProviderContainer` + override 사용. UI 테스트에서 Provider override |
 
 ---
 
@@ -125,7 +240,7 @@ class PostListNotifier extends _$PostListNotifier {
 ```
 
 - 사용자에게 보이는 에러 메시지는 기술적 상세 내용 노출 금지
-- `print()` 디버그 로그는 프로덕션 빌드 전 제거 (또는 `kDebugMode` 조건 처리)
+- `print()` 사용 금지. [Rule 6](#73501-riverpod-아키텍처-rule-강제)에 따라 `logger` 사용
 
 ---
 
@@ -164,7 +279,7 @@ class DioClient {
 
 | 폴더        | 역할                  | 포함 내용                                    |
 | ----------- | --------------------- | -------------------------------------------- |
-| `core/`     | 인프라·설정 (UI 없음) | 네트워크, 저장소, 라우터, 에러 정의, DI 설정 |
+| `core/`     | 인프라·설정 (UI 없음) | 네트워크, 저장소, 라우터, 에러 정의, logger, DI 설정 |
 | `shared/`   | 재사용 가능한 UI·유틸 | 공통 위젯, 테마, 포매터, 유효성 검사 함수    |
 | `features/` | 도메인별 기능         | 각 기능의 data/domain/presentation 3계층     |
 
@@ -174,6 +289,7 @@ lib/
 │   ├── network/          ← Dio 인스턴스, 인터셉터, ExceptionMapper
 │   ├── storage/          ← SecureStorage 래퍼
 │   ├── router/           ← GoRouter 설정
+│   ├── logger/           ← Logger 설정 (Rule 6)
 │   └── error/            ← AppException 계층
 ├── features/
 │   ├── auth/
@@ -265,13 +381,13 @@ Widget build(BuildContext context, WidgetRef ref) {
 ### Provider 버전 의존성
 
 ```yaml
-# pubspec.yaml
+# pubspec.yaml — [7.3.0](#730-pub-패키지-정리) 참조
 dependencies:
-  flutter_riverpod: ^3.0.0
-  riverpod_annotation: ^3.0.0
+  flutter_riverpod: ^3.1.0    # riverpod 별도 선언 금지 (중복)
+  riverpod_annotation: ^4.0.0
 
 dev_dependencies:
-  riverpod_generator: ^3.0.0
+  riverpod_generator: ^4.0.0+1
   build_runner: ^2.4.0
 ```
 

@@ -36,7 +36,7 @@
 | **Done When** | 요구사항·ERD·API가 개발 착수 가능한 수준으로 정리됨 |
 | **Duration** | 2일 |
 | **RULE Reference** | PRD §2, §3, §5 |
-| **선행 문서** | [pre-dev/01-proposal](../pre-dev/README.md), 02-project-plan, 03-requirements |
+| **선행 문서** | doc/pre-dev/01-proposal, 02-project-plan, 03-requirements |
 | **후속 문서** | doc/pre-dev/03-requirements 보완, 05-erd 초안, 06-api-spec 초안 |
 
 ---
