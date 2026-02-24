@@ -43,6 +43,7 @@
 | [10-container-k8s.md](rules/10-container-k8s.md)         | Container & Kubernetes 보안 (해당 환경 사용 시만 적용)                       |
 | [11-data-sovereignty.md](rules/11-data-sovereignty.md)   | 데이터 주권·개인정보: 최소화·파기·탈퇴·감사·마스킹 [MUST]                    |
 | [12-working-log.md](rules/12-working-log.md)              | Working Log: AI 작업 결과물의 9개 섹션 구조·작성 규칙·템플릿 [MUST]          |
+| [13-document-guide.md](rules/13-document-guide.md)        | 개발 문서 작성 가이드: 제안서·계획서·요구사항·아키텍처·ERD·API·테스트·배포 등 [RECOMMENDED] |
 | [appendix-a-asvs.md](rules/appendix-a-asvs.md)           | 부록 A: ASVS 5.0 챕터별 대응 (문제→대책)                                     |
 | [appendix-b-owasp.md](rules/appendix-b-owasp.md)         | 부록 B: OWASP Top 10 2025 매핑표                                             |
 | [appendix-c-checklist.md](rules/appendix-c-checklist.md) | 부록 C: 규칙 준수 체크리스트 (일상 참조용)                                   |
@@ -100,7 +101,16 @@
 
 - 모든 AI 작업 결과물에 Working Log 수반. 9개 섹션(Task Metadata, Original Instruction, AI Interpretation, Execution, Output Summary, Validation, Issues, Next Action, Trace) 순서 준수. 원문 보존·가정 명시·한계 공개·연속성 유지·실행 가능한 Next Instruction 필수.
 
+### 개발 문서 작성 가이드 [RECOMMENDED]
+
+- **개발 전**: 제안서, 계획서, 요구사항 정의서, 아키텍처 설계서, ERD, API 명세
+- **개발 중**: 상세 설계서, 작업 로그, 변경 요청서, 테스트 케이스
+- **개발 후**: 테스트 보고서, 사용자 매뉴얼, 배포 가이드, 운영 매뉴얼
+- **공통 원칙**: 버전 관리, 승인 체계, 저장 위치 단일화, 명명 규칙, 접근 권한
+
+> 상세: [13-document-guide.md](rules/13-document-guide.md)
+
 ---
 
-> **마지막 업데이트**: 2026-02-19
-> **버전**: 1.0.11 (Working Log Rule 추가)
+> **마지막 업데이트**: 2026-02-23
+> **버전**: 1.0.12 (개발 문서 작성 가이드 추가)
